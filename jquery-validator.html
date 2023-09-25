@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>jQuery validation plug-in - main demo</title>
+    <link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/css/screen.css">
+    <script src="https://jqueryvalidation.org/files/lib/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script>
+        $.validator.setDefaults({
+            submitHandler: function() {
+                alert("submitted!");
+            }
+        });
+
+        $(document).ready(function() {
+            // Initialize the form validation
+            var form = $("#commentForm");
+            form.validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    }
+                },
+                messages: {                
+                    email: "Please enter a valid email address"
+                }
+            });
+
+            // Handle the "Save as Draft" button click
+            $("#saveDraftBtn").click(function() {
+                // Remove required validation for email
+                form.find("input[name='email']").rules("remove", "required");
+                // Submit the form
+                form.submit();
+
+                // Redirect to another URL for drafts (change this URL as needed)
+                window.location.href = "{{ route('drafts_page') }}";
+            });
+
+        });
+    </script>
+    <style>
+        #commentForm {
+            width: 500px;
+        }
+        #commentForm label {
+            width: 250px;
+        }
+        #commentForm label.error, #commentForm input.submit {
+            margin-left: 253px;
+        }
+        #signupForm {
+            width: 670px;
+        }
+        #signupForm label.error {
+            margin-left: 10px;
+            width: auto;
+            display: inline;
+        }
+        #newsletter_topics label.error {
+            display: none;
+            margin-left: 103px;
+        }
+    </style>
+</head>
+<body>
+<h1 id="banner"><a href="https://jqueryvalidation.org/">jQuery Validation Plugin</a> Demo</h1>
+<div id="main">
+    <p>Default submitHandler is set to display an alert instead of submitting the form</p>
+    <form class="hello.html" id="commentForm" method="get" action="">
+        <fieldset>
+            <legend>Please provide your name, email address (won't be published) and a comment</legend>
+            <p>
+                <label for="cemail">E-Mail (required)</label>
+                <input id="cemail" type="email" name="email" required>
+            </p>
+
+            <p>
+                <input class="submit" type="submit" value="Submit">
+                <button type="button" id="saveDraftBtn">Save as Draft</button>
+            </p>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
